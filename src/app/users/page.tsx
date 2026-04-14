@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usersService } from "@/modules/users";
 import { User } from "@/types/api";
+import { UserCard } from "@/components/users/UserCard";
 
 export default function UsersPage() {
   const [users, setUsers] = useState<User[]>([]);
@@ -49,31 +50,7 @@ export default function UsersPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {users.map((user) => (
-            <div key={user.id} className="bg-white rounded-lg shadow-md p-6">
-              <h3 className="text-lg font-semibold">{user.name}</h3>
-              <p className="text-gray-600 text-sm">{user.email}</p>
-              <p className="text-gray-400 text-sm mt-1">Edad: {user.age}</p>
-              <div className="flex gap-3 mt-4 text-sm">
-                <Link
-                  href={`/users/${user.id}`}
-                  className="text-blue-600 hover:underline"
-                >
-                  Ver
-                </Link>
-                <Link
-                  href={`/users/${user.id}/edit`}
-                  className="text-yellow-600 hover:underline"
-                >
-                  Editar
-                </Link>
-                <button
-                  onClick={() => handleDelete(user.id)}
-                  className="text-red-600 hover:underline"
-                >
-                  Eliminar
-                </button>
-              </div>
-            </div>
+            <UserCard key={user.id} user={user} onDelete={handleDelete} />
           ))}
         </div>
       )}

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { productsService } from "@/modules/products";
 import { Product } from "@/types/api";
+import { ProductCard } from "@/components/products/ProductCard";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -51,37 +52,11 @@ export default function ProductsPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {products.map((product) => (
-            <div
+            <ProductCard
               key={product.sku}
-              className="bg-white rounded-lg shadow-md p-6"
-            >
-              <span className="text-xs text-gray-400 font-mono">
-                {product.sku}
-              </span>
-              <h3 className="text-lg font-semibold mt-1">{product.name}</h3>
-              {product.description && (
-                <p className="text-gray-600 text-sm mt-1">
-                  {product.description}
-                </p>
-              )}
-              <p className="text-xl font-bold text-green-600 mt-2">
-                ${Number(product.price).toFixed(2)}
-              </p>
-              <div className="flex gap-3 mt-4 text-sm">
-                <Link
-                  href={`/products/${product.sku}`}
-                  className="text-blue-600 hover:underline"
-                >
-                  Ver
-                </Link>
-                <button
-                  onClick={() => handleDelete(product.sku)}
-                  className="text-red-600 hover:underline"
-                >
-                  Eliminar
-                </button>
-              </div>
-            </div>
+              product={product}
+              onDelete={handleDelete}
+            />
           ))}
         </div>
       )}
